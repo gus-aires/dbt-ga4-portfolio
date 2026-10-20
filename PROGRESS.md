@@ -10,7 +10,7 @@
 - `~/.dbt/profiles.yml` (fora do repo): OAuth, dataset base `dbt_dev`, location `US`, `maximum_bytes_billed` = 10 GB.
 - `dbt debug`: todos os checks OK.
 - Teste de sandbox: CREATE TABLE, INSERT e MERGE funcionaram e não há expiração padrão → **projeto NÃO está em sandbox**; incremental com `merge` é viável.
-- `git init -b main` e arquivos em stage.
+- `git init -b main`; identidade global do Git configurada com o e-mail noreply do GitHub (privacidade); primeiro commit `d0e67f1` (local, ainda sem remote).
 - `CLAUDE.md` reescrito sem informações pessoais (foco em desenvolvimento + vitrine); "Dia" virou "Etapa" e "modo entrevista" virou "checagem de entendimento". Vai para o repo público.
 
 ### Decisões e porquês
@@ -21,10 +21,11 @@
 - Referência de custo: ler só `event_name` de 1 semana = ~4,3 MB.
 
 ### Pendências
-- Configurar identidade do Git (`user.name` / `user.email`) e fazer o primeiro commit.
-- Criar o repositório no GitHub e fazer push.
+- Criar o repositório público `gus-aires/dbt-ga4-portfolio` no GitHub (vazio, sem README/.gitignore/licença) e fazer push.
+- Opcional: alerta de orçamento no Billing do GCP.
 - Curso dbt Fundamentals (confirmar se foi feito).
 - Checagem de entendimento da Etapa 1.
 
 ### Próximo passo
-Primeiro commit + repositório no GitHub, depois a checagem de entendimento da Etapa 1.
+Criar o repositório no GitHub → push → checagem de entendimento da Etapa 1 → Etapa 2 (staging).
+Nada precisa ser criado no BigQuery: o dbt cria os datasets na primeira execução.
