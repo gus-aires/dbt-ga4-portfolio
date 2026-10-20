@@ -10,7 +10,8 @@
 - `~/.dbt/profiles.yml` (fora do repo): OAuth, dataset base `dbt_dev`, location `US`, `maximum_bytes_billed` = 10 GB.
 - `dbt debug`: todos os checks OK.
 - Teste de sandbox: CREATE TABLE, INSERT e MERGE funcionaram e não há expiração padrão → **projeto NÃO está em sandbox**; incremental com `merge` é viável.
-- `git init -b main`; identidade global do Git configurada com o e-mail noreply do GitHub (privacidade); primeiro commit `d0e67f1` (local, ainda sem remote).
+- `git init -b main`; identidade global do Git configurada com o e-mail noreply do GitHub (privacidade); primeiro commit `d0e67f1`.
+- Repositório público criado: https://github.com/gus-aires/dbt-ga4-portfolio (push inicial feito; Git Credential Manager autenticado).
 - `CLAUDE.md` reescrito sem informações pessoais (foco em desenvolvimento + vitrine); "Dia" virou "Etapa" e "modo entrevista" virou "checagem de entendimento". Vai para o repo público.
 
 ### Decisões e porquês
@@ -19,8 +20,6 @@
 - `maximum_bytes_billed`: trava de custo; a query falha em vez de cobrar se passar de 10 GB.
 - `+schema` por camada: gera datasets `dbt_dev_staging`, `dbt_dev_intermediate`, `dbt_dev_marts` (comportamento padrão do `generate_schema_name`).
 - Referência de custo: ler só `event_name` de 1 semana = ~4,3 MB.
-
-- Repositório público criado: https://github.com/gus-aires/dbt-ga4-portfolio (push inicial feito; Git Credential Manager autenticado).
 
 ### Checagem de entendimento — Etapa 1
 - Q1 (profiles.yml vs dbt_project.yml): não lembrou → explicado. Revisar.
