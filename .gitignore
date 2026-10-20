@@ -1,0 +1,28 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- dbt artifacts ---
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# --- Credentials & secrets (never commit) ---
+profiles.yml
+*.json.key
+*service-account*.json
+application_default_credentials.json
+.env
+.env.*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Claude Code local settings ---
+.claude/settings.local.json
