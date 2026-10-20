@@ -20,12 +20,18 @@
 - `+schema` por camada: gera datasets `dbt_dev_staging`, `dbt_dev_intermediate`, `dbt_dev_marts` (comportamento padrão do `generate_schema_name`).
 - Referência de custo: ler só `event_name` de 1 semana = ~4,3 MB.
 
+- Repositório público criado: https://github.com/gus-aires/dbt-ga4-portfolio (push inicial feito; Git Credential Manager autenticado).
+
+### Checagem de entendimento — Etapa 1
+- Q1 (profiles.yml vs dbt_project.yml): não lembrou → explicado. Revisar.
+- Q2 (location US / maximum_bytes_billed): parcial — limite de bytes ok (custo, não "cota"); location não lembrou → explicado.
+- Q3 (view vs table por camada): não lembrou → explicado. Revisar.
+- Refazer as 3 perguntas rapidamente no início da próxima sessão.
+
 ### Pendências
-- Criar o repositório público `gus-aires/dbt-ga4-portfolio` no GitHub (vazio, sem README/.gitignore/licença) e fazer push.
 - Opcional: alerta de orçamento no Billing do GCP.
 - Curso dbt Fundamentals (confirmar se foi feito).
-- Checagem de entendimento da Etapa 1.
 
 ### Próximo passo
-Criar o repositório no GitHub → push → checagem de entendimento da Etapa 1 → Etapa 2 (staging).
+Revisão rápida das 3 perguntas da Etapa 1 → Etapa 2 (staging): declarar a source do GA4.
 Nada precisa ser criado no BigQuery: o dbt cria os datasets na primeira execução.

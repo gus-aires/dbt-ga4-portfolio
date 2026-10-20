@@ -89,7 +89,7 @@ Convenções: prefixos `stg_`, `int_`, `fct_`, `dim_`, `mart_`; staging material
 - [x] Criar venv, instalar `dbt-bigquery`, rodar `dbt init`, configurar `profiles.yml`.
 - [x] `dbt debug` passando.
 - [x] Verificar sandbox e impacto em DML.
-- [ ] `.gitignore`, repositório no GitHub, primeiro commit.
+- [x] `.gitignore`, repositório no GitHub, primeiro commit.
 - [ ] Checagem de entendimento.
 
 ### Etapa 2 — Staging
