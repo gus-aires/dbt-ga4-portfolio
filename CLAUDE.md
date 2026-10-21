@@ -17,7 +17,7 @@ Se tiver que escolher entre ir mais rápido e eu entender, escolha eu entender.
 - Setup do ambiente: venv, instalação do `dbt-bigquery`, `profiles.yml`, `dbt init`, `.gitignore`.
 - Arquivos de configuração e YAML: `dbt_project.yml`, `sources.yml`, `schema.yml` (testes e descrições), `packages.yml`.
 - Rodar comandos (`dbt debug`, `dbt run`, `dbt test`, `dbt build`, `dbt docs generate`) e interpretar os erros comigo.
-- Commits e push no Git.
+- Commits e push no Git. Commits de setup/config/YAML feitos por você levam a linha `Co-Authored-By: Claude`; commits de modelos SQL e macros escritos por mim saem **sem** essa linha.
 - Rascunho do README (que eu revisarei).
 
 ### O que EU escrevo e você revisa

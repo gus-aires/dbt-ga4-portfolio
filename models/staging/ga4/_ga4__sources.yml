@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: ga4
+    description: >
+      Public GA4 BigQuery export sample from the Google Merchandise Store (obfuscated).
+      One sharded table per day (events_YYYYMMDD), from 2020-11-01 to 2021-01-31.
+    database: bigquery-public-data
+    schema: ga4_obfuscated_sample_ecommerce
+
+    tables:
+      - name: events
+        identifier: events_*
+        description: >
+          Raw GA4 event export. One row per event. Use _TABLE_SUFFIX to filter
+          which daily shards are scanned. Nested/repeated fields: event_params,
+          user_properties and items.
+        # No freshness check: this is a frozen historical sample (last day 2021-01-31),
+        # so any freshness threshold would always fail.
+        columns:
+          - name: event_date
+            description: Event date in the property's timezone, as a STRING (YYYYMMDD).
+          - name: event_timestamp
+            description: Event time in microseconds since epoch (UTC).
+          - name: event_name
+            description: GA4 event name (e.g. page_view, view_item, add_to_cart, purchase).
+          - name: user_pseudo_id
+            description: Pseudonymous device/browser identifier (client ID).
+          - name: event_params
+            description: Repeated key/value record with the event parameters (ga_session_id, page_location, etc.).
