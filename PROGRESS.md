@@ -27,10 +27,24 @@
 - Q3 (view vs table por camada): não lembrou → explicado. Revisar.
 - Refazer as 3 perguntas rapidamente no início da próxima sessão.
 
+## Etapa 2 — Staging (em andamento)
+
+### Feito
+- `models/staging/ga4/_ga4__sources.yml`: source `ga4.events` → `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`. Sem freshness (amostra congelada, último dia 2021-01-31).
+- Volume de referência: ~26 mil eventos e ~20 MB por dia; ~1,8 GB nos 92 dias.
+- Conceitos explicados: o que é dbt (T do ELT, ref/source, Jinja, materializações, testes, docs); SQL básico/intermediário comparado ao Looker Studio; window functions com exemplos GA4 (row_number, lag/lead, first_value, QUALIFY); roteiro "granularidade primeiro".
+
+### Em andamento: `stg_ga4__events` (rodada 1, colunas planas)
+- Arquivo criado pelo usuário em `models/staging/ga4/stg_ga4__events.sql` (ainda não compila; não commitado).
+- 2 tentativas revisadas. Dica nível 3 entregue: CTE `source` pronta + `renamed` com 2 colunas de exemplo (`event_at`, `country`). Falta completar as demais colunas da rodada 1.
+- Pontos de atenção recorrentes: aspas simples = texto (nomes de coluna/CTE sem aspas); papel de cada CTE (source = nomes originais, renamed = `expr as novo_nome`); `where` × `having`; erro de digitação `_TABBLE_SUFFIX`.
+- Rodada 2 (extrair parâmetros do `event_params` sem multiplicar linhas) ainda não iniciada.
+
 ### Pendências
 - Opcional: alerta de orçamento no Billing do GCP.
 - Curso dbt Fundamentals (confirmar se foi feito).
 
 ### Próximo passo
-Revisão rápida das 3 perguntas da Etapa 1 → Etapa 2 (staging): declarar a source do GA4.
+Completar a rodada 1 do `stg_ga4__events` a partir da dica nível 3 → revisar → `dbt run -s stg_ga4__events` → comparar contagem de linhas com a fonte → rodada 2 (event_params).
+Sugestão: praticar consultas curtas direto no console do BigQuery para ganhar fluência de sintaxe com feedback imediato.
 Nada precisa ser criado no BigQuery: o dbt cria os datasets na primeira execução.

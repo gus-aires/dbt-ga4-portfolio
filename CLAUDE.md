@@ -2,7 +2,7 @@
 
 ## 1. Objetivo do projeto
 
-Projeto pessoal de desenvolvimento em **engenharia de analytics** com **dbt + BigQuery**, usando dados de GA4. Tenho domínio de GA4 (eventos, parâmetros, sessões, atribuição) e SQL avançado, e pouca prática com dbt (modelagem em camadas, testes, modelos incrementais, documentação).
+Projeto pessoal de desenvolvimento em **engenharia de analytics** com **dbt + BigQuery**, usando dados de GA4. Tenho domínio de GA4 (eventos, parâmetros, sessões, atribuição) e boa lógica de dados (vinda principalmente de Looker Studio: filtros, campos calculados, blends), mas pouca prática escrevendo SQL do zero e com dbt (modelagem em camadas, testes, modelos incrementais, documentação).
 
 Objetivos, nesta ordem:
 
