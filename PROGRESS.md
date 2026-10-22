@@ -40,11 +40,18 @@
 - Pontos de atenção recorrentes: aspas simples = texto (nomes de coluna/CTE sem aspas); papel de cada CTE (source = nomes originais, renamed = `expr as novo_nome`); `where` × `having`; erro de digitação `_TABBLE_SUFFIX`.
 - Rodada 2 (extrair parâmetros do `event_params` sem multiplicar linhas) ainda não iniciada.
 
+### Aquecimento no console do BigQuery (2026-10-22) — concluído, escrito pelo usuário
+1. Eventos por `event_name` (page_view 9.767, user_engagement 8.667, view_item 3.380 em 01/11/2020) — 5 tentativas.
+2. 10 eventos com `event_name`, `geo.country as country`, `device.category as device_category` — 4 tentativas.
+3. Usuários distintos por país (US 1.096, India 223, Canada 165) — 3 tentativas.
+- Regras fixadas: ordem das cláusulas; `*` substitui a lista; aspas simples = valor; `order by`/`group by` compostos; funções dentro do `select`; STRUCT com um ponto; `as` na mesma linha; granularidade primeiro; regra do `group by` (dimensão ou agregação); `count(distinct x)`; custo = colunas lidas, `limit` não reduz custo.
+- Analogia do usuário que funcionou: STRUCT = variável de dataLayer no GTM (acesso com ponto). Ponte para a rodada 2: `items.0` no GTM × `UNNEST` + busca por chave no SQL.
+- Atenção: erros de digitação em nomes (`_TABBLE_SUFFIX`, `device_categiry`) — reforçar "nome de coluna é contrato".
+
 ### Pendências
 - Opcional: alerta de orçamento no Billing do GCP.
 - Curso dbt Fundamentals (confirmar se foi feito).
 
 ### Próximo passo
-Completar a rodada 1 do `stg_ga4__events` a partir da dica nível 3 → revisar → `dbt run -s stg_ga4__events` → comparar contagem de linhas com a fonte → rodada 2 (event_params).
-Sugestão: praticar consultas curtas direto no console do BigQuery para ganhar fluência de sintaxe com feedback imediato.
+Usuário escreve a rodada 1 do `stg_ga4__events` **direto no arquivo** (estava vazio em 2026-10-22), a partir da dica nível 3 → revisar → `dbt run -s stg_ga4__events` → comparar contagem de linhas com a fonte → rodada 2 (event_params).
 Nada precisa ser criado no BigQuery: o dbt cria os datasets na primeira execução.
