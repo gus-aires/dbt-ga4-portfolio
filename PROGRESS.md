@@ -34,7 +34,15 @@
 - Volume de referência: ~26 mil eventos e ~20 MB por dia; ~1,8 GB nos 92 dias.
 - Conceitos explicados: o que é dbt (T do ELT, ref/source, Jinja, materializações, testes, docs); SQL básico/intermediário comparado ao Looker Studio; window functions com exemplos GA4 (row_number, lag/lead, first_value, QUALIFY); roteiro "granularidade primeiro".
 
-### Em andamento: `stg_ga4__events` (rodada 1, colunas planas)
+### ✅ `stg_ga4__events` rodada 1 concluída (2026-10-27) — escrita pelo usuário
+- 11 colunas planas: event_name, user_pseudo_id, country, device_category, traffic_source/medium/campaign, event_date (parse_date), event_at (timestamp_micros), transaction_id, purchase_revenue_usd.
+- Primeiro `dbt show` e `dbt run` rodados pelo próprio usuário no terminal do VS Code (`.venv\Scripts\dbt.exe ...`). View criada em `dbt_dev_staging` (0 bytes processados).
+- Prova da granularidade: fonte e modelo com **328.463** linhas (01–07/11/2020). `count(*)` leu 0 bytes (metadados).
+- Custo: cada consulta à view lê ~34,6 MB. Comparativo (dry run): `select *` 1 semana 254,9 MB; 11 colunas 92 dias 453,6 MB; `select *` 92 dias 3.583,7 MB → colunas e período se multiplicam.
+- Descoberta: `transaction_id` é NULL em todas as compras (dataset ofuscado; 14 purchases em 01/11/2020) → não serve de chave nem para teste `not_null`. Registrar como limitação no README.
+- Checagem: confundiu o papel da CTE `source` (achava que escolhia colunas) e o `_TABLE_SUFFIX` ("filtra colunas"); esclarecido com a "linha de montagem" e a distinção entre a função `{{ source() }}` e a CTE chamada `source`. Resposta final correta: `_TABLE_SUFFIX` corta linhas pelo intervalo de datas.
+
+### Histórico: `stg_ga4__events` (rodada 1, colunas planas)
 - Arquivo criado pelo usuário em `models/staging/ga4/stg_ga4__events.sql` (ainda não compila; não commitado).
 - 2 tentativas revisadas. Dica nível 3 entregue: CTE `source` pronta + `renamed` com 2 colunas de exemplo (`event_at`, `country`). Falta completar as demais colunas da rodada 1.
 - Pontos de atenção recorrentes: aspas simples = texto (nomes de coluna/CTE sem aspas); papel de cada CTE (source = nomes originais, renamed = `expr as novo_nome`); `where` × `having`; erro de digitação `_TABBLE_SUFFIX`.
@@ -53,5 +61,8 @@
 - Curso dbt Fundamentals (confirmar se foi feito).
 
 ### Próximo passo
-Usuário escreve a rodada 1 do `stg_ga4__events` **direto no arquivo** (estava vazio em 2026-10-22), a partir da dica nível 3 → revisar → `dbt run -s stg_ga4__events` → comparar contagem de linhas com a fonte → rodada 2 (event_params).
+Rodada 2 do `stg_ga4__events`: extrair `ga_session_id`, `ga_session_number`, `page_location`, `page_referrer` do `event_params` sem multiplicar linhas (UNNEST em subconsulta escalar; ponte com `items.0` do GTM). Depois: macro `get_event_param`, testes e descrições no `_ga4__models.yml`.
+
+### Pendências futuras (sem urgência)
+- Python 3.11: bibliotecas Google deixam de dar suporte em 2027-10-24 (FutureWarning no dbt). Avaliar upgrade para 3.12+ antes disso.
 Nada precisa ser criado no BigQuery: o dbt cria os datasets na primeira execução.
