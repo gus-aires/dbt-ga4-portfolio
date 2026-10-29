@@ -4,7 +4,7 @@
 
 ### Feito
 - `.venv` com Python 3.11.9 e `dbt-bigquery` 1.12.1 (dbt-core 1.12.5).
-- Google Cloud SDK instalado; ADC (`gcloud auth application-default login`) com quota project `dbt-ga4-portfolio-510915`.
+- Google Cloud SDK instalado; ADC (`gcloud auth application-default login`) com quota project apontando para o projeto GCP pessoal.
 - `dbt init` rodado e estrutura movida para a raiz do repo (exemplos do init removidos).
 - `dbt_project.yml` com materialização por camada: staging/intermediate = view, marts = table.
 - `~/.dbt/profiles.yml` (fora do repo): OAuth, dataset base `dbt_dev`, location `US`, `maximum_bytes_billed` = 10 GB.
