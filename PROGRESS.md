@@ -56,12 +56,21 @@
 - Analogia do usuário que funcionou: STRUCT = variável de dataLayer no GTM (acesso com ponto). Ponte para a rodada 2: `items.0` no GTM × `UNNEST` + busca por chave no SQL.
 - Atenção: erros de digitação em nomes (`_TABBLE_SUFFIX`, `device_categiry`) — reforçar "nome de coluna é contrato".
 
+### Rodada 2 — exploração no console (2026-10-29) — escrita pelo usuário
+- Preview do `event_params`: entendeu que a lista "esticada para baixo" é **1 linha** com um array dentro (primeiro achou que fossem várias linhas, como no Looker; corrigido: várias linhas só existem depois de um `UNNEST` no `from`).
+- Tipos descobertos: `ga_session_id` e `ga_session_number` → `int_value`; `page_location` e `page_referrer` → `string_value`.
+- Query no console com 4 subconsultas escalares `(select value.X from unnest(event_params) where key = '...') as ...` — funcionou, 10 linhas sem multiplicar. ~7 tentativas.
+- Query de diagnóstico (unnest no `from`, `count(campo)` por tipo) para validar o tipo do `page_referrer`. `page_referrer` existe em ~60% dos page_views (não só em user_engagement); no page_view de entrada (landing) costuma faltar → NULL é esperado.
+- Conceitos: subconsulta correlacionada (lê o `event_params` da linha de fora; repetir a tabela dentro dá "Scalar subquery produced more than one element"); validador ≠ execução; query que roda ≠ query certa; colunar até dentro de STRUCT (`value` inteiro 10,1 MB × `value.int_value` 6,3 MB); `ga_session_id` sozinho não identifica sessão (chave = `user_pseudo_id` + `ga_session_id`); staging não filtra eventos.
+- Erros recorrentes: aspas (nome × valor — `unnest('events_params')`, `key = ga_session_id`), `as` invertido/entre aspas, filtro no `select`, vírgula entre colunas, trocar key e campo de value. Reforçar a regra nome × valor no próximo aquecimento.
+- Higiene: ID do projeto GCP removido do `PROGRESS.md` (continua no histórico do Git; não é credencial, decidimos não reescrever o histórico).
+
 ### Pendências
 - Opcional: alerta de orçamento no Billing do GCP.
 - Curso dbt Fundamentals (confirmar se foi feito).
 
 ### Próximo passo
-Rodada 2 do `stg_ga4__events`: extrair `ga_session_id`, `ga_session_number`, `page_location`, `page_referrer` do `event_params` sem multiplicar linhas (UNNEST em subconsulta escalar; ponte com `items.0` do GTM). Depois: macro `get_event_param`, testes e descrições no `_ga4__models.yml`.
+Rodada 2, Etapa C: levar as 4 subconsultas do console para o `renamed` do `stg_ga4__events.sql` (sem filtro de evento, sem limit, `from source` inalterado) → `dbt show` → `dbt run` → conferir `count(*)` = 328.463. Começar com um aquecimento curto de aspas (nome × valor). Depois: macro `get_event_param`, testes e descrições no `_ga4__models.yml`.
 
 ### Pendências futuras (sem urgência)
 - Python 3.11: bibliotecas Google deixam de dar suporte em 2027-10-24 (FutureWarning no dbt). Avaliar upgrade para 3.12+ antes disso.
